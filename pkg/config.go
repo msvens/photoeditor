@@ -1,4 +1,4 @@
-package photos
+package editor
 
 import (
 	"image"
@@ -20,35 +20,34 @@ func NewEditor(maxWidth, thumbX, thumbY int) *Editor {
 	landscape := image.Rect(0, 0, maxWidth, y)
 
 	//portrait: 4:5
-	y = int(math.Round(float64(maxWidth)/ 0.8))
+	y = int(math.Round(float64(maxWidth) / 0.8))
 	portrait := image.Rect(0, 0, maxWidth, y)
 
 	return &Editor{
-		quality: 90,
-		maxWidth: maxWidth,
-		thumb: image.Rect(0, 0, thumbX, thumbY),
+		quality:   90,
+		maxWidth:  maxWidth,
+		thumb:     image.Rect(0, 0, thumbX, thumbY),
 		landscape: landscape,
-		portrait: portrait,
-		square: image.Rect(0, 0, maxWidth, maxWidth),
+		portrait:  portrait,
+		square:    image.Rect(0, 0, maxWidth, maxWidth),
 	}
 }
 
 func InstaEditor(thumbX, thumbY int) *Editor {
 	return &Editor{
 		quality:   90,
-		thumb:     image.Rect(0,0, thumbX, thumbY),
+		thumb:     image.Rect(0, 0, thumbX, thumbY),
 		maxWidth:  1200,
-		square:    image.Rect(0,0, 1200, 1200),
+		square:    image.Rect(0, 0, 1200, 1200),
 		portrait:  image.Rect(0, 0, 1080, 1350),
-		landscape: image.Rect(0,0, 1200, 628),
+		landscape: image.Rect(0, 0, 1200, 628),
 	}
 }
-
 
 type option func(*Editor)
 
 func (e *Editor) Option(options ...option) {
-	for _,option := range options {
+	for _, option := range options {
 		option(e)
 	}
 }

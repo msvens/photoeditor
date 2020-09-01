@@ -1,4 +1,4 @@
-package photos
+package editor
 
 import (
 	"github.com/disintegration/imaging"
@@ -20,10 +20,10 @@ const (
 )
 
 var GenTypesNames = map[PhotoType]string{
-	THUMB: "thumb",
-	LANDSCAPE:  "landscape",
-	SQUARE:  "square",
-	PORTRAIT: "portrait",
+	THUMB:     "thumb",
+	LANDSCAPE: "landscape",
+	SQUARE:    "square",
+	PORTRAIT:  "portrait",
 }
 
 func (gt PhotoType) String() string {
@@ -35,8 +35,8 @@ func CreateDirs(destDir string, subDir bool) error {
 	if err = os.MkdirAll(destDir, 0744); err != nil {
 		return err
 	}
-	for _,name := range GenTypesNames {
-		if err = os.MkdirAll(filepath.Join(destDir,name), 0744); err != nil {
+	for _, name := range GenTypesNames {
+		if err = os.MkdirAll(filepath.Join(destDir, name), 0744); err != nil {
 			return err
 		}
 	}
@@ -57,7 +57,6 @@ func (e Editor) Generate(srcFile, destDir string, subDir bool, types ...PhotoTyp
 	if size.Dx() > e.maxWidth {
 		img = imaging.Fit(img, e.maxWidth, size.Dy(), imaging.Lanczos)
 	}
-
 
 	//now generate the various images... (this should be parallelised)
 	//generate thumb:
@@ -86,12 +85,12 @@ func dstFile(srcFile, destDir string, gt PhotoType, subDir bool) string {
 	} else {
 		suffix := filepath.Ext(srcFile)
 		fname := strings.TrimSuffix(base, suffix)
-		return filepath.Join(destDir, fname + "_" + gt.String() + suffix)
+		return filepath.Join(destDir, fname+"_"+gt.String()+suffix)
 	}
 }
 
 func containsType(types []PhotoType, check PhotoType) bool {
-	for _,v := range types {
+	for _, v := range types {
 		if v == check {
 			return true
 		}
@@ -102,7 +101,6 @@ func containsType(types []PhotoType, check PhotoType) bool {
 func resize(image image.Image, dst image.Rectangle, anchor imaging.Anchor) image.Image {
 	return imaging.Fill(image, dst.Max.X, dst.Max.Y, anchor, imaging.Lanczos)
 }
-
 
 /*
 func (e *Editor) createThumb(image image.Image, out io.WriteCloser, anchor imaging.Anchor) {
@@ -124,4 +122,4 @@ func (e *Editor) CreateSquare(in io.ReadCloser, out io.WriteCloser, anchor CropA
 func (e *Editor) CreatePortrait(in io.ReadCloser, out io.WriteCloser, anchor CropAnchor) {
 
 }
- */
+*/

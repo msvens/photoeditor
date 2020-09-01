@@ -8,3 +8,4 @@ portrait and thumbnails.
 - Smartcrop
 - Manual crop i.e. set X, Y coordinates for the crop
 - Support io.Reader and io.Writer input/output
+- Add concurrent execution
